@@ -1,0 +1,14 @@
+{
+  "name": "dev_build",
+  "version": "1.0.0",
+  "description": "Changes the port for files when in dev mode",
+  "main": "build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "replace-in-file": "^6.2.0"
+  }
+}
