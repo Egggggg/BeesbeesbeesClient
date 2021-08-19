@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="utf-8">
+		<title>Detritan Editor</title>
+		<link rel="shortcut icon" type="image/png" href="https://cdn.beesbeesbees.me/favicon.png">
+		<link rel="stylesheet" type="text/css" href="styles/main.css">
+		<link rel="stylesheet" type="text/css" href="styles/editor.css">
+		<script type="text/javascript" src="scripts/square.js"></script>
+		<script type="text/javascript" src="scripts/editor.js"></script>
+    </head>
+	<body>
+		<div id="bodycontainer">
+			<div id="boardcontainer">
+				<h3>Starting Position</h3>
+				<span>Click to set starting position</span>
+				<div id="board"></div>
+				<div id="colorbuttons">
+					<button class="colorbutton" id="color0"></button>
+					<button class="colorbutton" id="color1"></button>
+					<button class="colorbutton" id="color2"></button>
+					<button class="colorbutton" id="color3"></button>
+					<button class="colorbutton" id="color4"></button>
+					<button class="colorbutton" id="color5"></button>
+					<button class="colorbutton" id="color6"></button>
+					<button class="colorbutton" id="color7"></button>
+				</div>
+				<div id="colorpreviewcontainer">
+					<button id="colorpreview" disabled></button>
+				</div>
+				<div id="controls">
+					<span>
+						Left click to color<br>
+						Right click or color white to erase<br>
+					</span>
+					<label for="autoadjust">Autoadjust:</label>
+					<input type="checkbox" id="autoadjust" autocomplete="off" checked>
+				</div>
+				<div id="statuscontainer" hidden>
+					<span id="status"></span><br>
+					<button onclick="hideStatus()">Ok</button>
+				</div>
+			</div>
+			<div class="spacer"></div>
+			<div id="editorcontainer">
+				<h3>Orientations</h3>
+				<div class="editorchoice">
+					<div class="editor" id="editor0"></div>
+					<input type="radio" name="orientation" class="orientationradio" id="orientation0" checked>
+					<label for="orientation0">Orientation 1</label>
+				</div>
+				<div class="editorchoice">
+					<div class="editor" id="editor1"></div>
+					<input type="radio" name="orientation" class="orientationradio" id="orientation1">
+					<label for="orientation0">Orientation 2</label>
+				</div>
+				<div class="editorchoice">
+					<div class="editor" id="editor2"></div>
+					<input type="radio" name="orientation" class="orientationradio" id="orientation2">
+					<label for="orientation0">Orientation 3</label>
+				</div>
+				<div class="editorchoice">
+					<div class="editor" id="editor3"></div>
+					<input type="radio" name="orientation" class="orientationradio" id="orientation3">
+					<label for="orientation0">Orientation 4</label>
+				</div>
+				<label for="name">Detritan Name: </label>
+				<input type="text" id="name" autocomplete="off">
+				<button id="upload" disabled>Upload</button>
+			</div>
+			<div class="spacer"></div>
+			<div id="previewcontainer">
+				<h3>Preview</h3>
+				<div class="editor" id="editor4"></div><br>
+				<span>This is used in the Detritan browser and when this Detritan is next in-game</span>
+			</div>
+			<div class="spacer"></div>
+			<div id="tips">
+				<h3>Tip</h3>
+				<span>The controls assume Detritans rotate clockwise as orientation increases.</span>
+			</div>
+		</div>
+		<script src="/__/firebase/8.8.0/firebase-app.js"></script>
+		<script src="/__/firebase/8.8.0/firebase-auth.js"></script>
+		<script src="/__/firebase/8.8.0/firebase-firestore.js"></script>
+		<script src="/__/firebase/8.8.0/firebase-storage.js"></script>
+		<script src="/__/firebase/init.js"></script>
+		<script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.2.2/html2canvas.min.js" integrity="sha512-LAy9JsHauh0F7L/awqsQUZAulUZxlnaJdvTPysAC7eip4Z0lMnKxP1rwx9kZDrQIWFOiiukaFupzaRHiyRRnxg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="http://cdn.rawgit.com/h2non/jsHashes/master/hashes.js"></script>
+		<script>
+			const firestore = firebase.firestore();
+			const storageRef = firebase.storage().ref();
+
+			let socket;
+		
+			function hideStatus() {
+				statusContainer.hidden = true;
+			}
+
+			function showStatus(text) {
+				status.innerHTML = text;
+				statusContainer.hidden = false;
+			}
+
+			firebase.auth().onAuthStateChanged(async (user) => {
+				if (!user) {
+					window.location.href = "login.html";
+				} else {
+					document.querySelector("#upload").disabled = false;
+
+					const token = await user.getIdToken();
+					const auth = {
+						auth: {
+							token: token
+						}
+					};
+
+					if (window.location.hostname === "localhost") {
+						socket = io("http://localhost:3000", auth);
+					} else {
+						socket = io("https://socket.beesbeesbees.me", auth);
+					}
+
+					const statusContainer = document.querySelector("#statuscontainer");
+					const status = document.querySelector("#status");
+
+					socket.on("upload success", () => {
+						showStatus("Upload successful.");
+					});
+
+					socket.on("upload failure", (error) => {
+						showStatus(`Upload failed: ${error.message}`);
+					});
+
+					socket.on("connect_error", (error) => {
+						showStatus(convertError(error.message));
+						console.error(error);
+					});
+
+					socket.on("default shape ids", (ids) => {
+						ids.forEach((id) => {
+							const element = document.createElement("img");
+		
+							storageRef.child(`shapes/${id}`).getDownloadURL().then((url) => {
+								element.src = url;
+		
+								document.querySelector("#tips").appendChild(element);
+							});
+						});
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,62 @@
+h5 {
+	text-align: center;
+	width: 100%;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+div {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 1em;
+	width: 27.5em;
+}
+
+label {
+	display: inline-block;
+	flex: 1;
+	margin-right: 2em;
+	text-align: right;
+	width: 10em;
+}
+
+input {
+	width: 15em;
+}
+
+.spacer {
+	flex: 1;
+	width: 10em;
+}
+
+#googlelogin {
+	cursor: pointer;
+}
+
+#strength {
+	display: flex;
+	flex-direction: column;
+	width: 13em;
+}
+
+#strength > div {
+	display: flex;
+	flex-direction: row;
+}
+
+#strength > div > label {
+	font-size: .8em;
+	text-align: left;
+}
+
+#strength > div > input {
+	width: auto;
+}
+
+#warning {
+	width: 13em;
+	text-align: center;
+}

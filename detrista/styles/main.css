@@ -1,0 +1,21 @@
+html {
+	background-color: #fbfaf9;
+}
+
+button {
+	background-color: #33bee7;
+	color: #fbfaf9;
+}
+
+button:disabled {
+	background-color: #fbfaf9;
+	color: #33bee7;
+}
+
+span, h3, label {
+	color: #646f91;
+}
+
+input, textarea {
+	color: #25345a;
+}

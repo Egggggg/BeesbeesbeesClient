@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="utf-8">
+		<title>Play Detrista</title>
+		<link rel="shortcut icon" type="image/png" href="https://cdn.beesbeesbees.me/favicon.png">
+		<link rel="stylesheet" type="text/css" href="styles/game.css">
+		<link rel="stylesheet" type="text/css" href="styles/main.css">
+    </head>
+    <body>
+		<div id="p1">
+			<div id="board"></div>
+			<div id="sidebar">
+				<div id="next"></div>
+				<div id="held"></div>
+				<h3 id="score">0 Points</h3>
+				<div id="controls">
+					<span>
+						a/d - Move<br>
+						A/D - Move 2<br>
+						W/w - Hard Drop<br>
+						s - Soft Drop<br>
+						S - Soft Drop 2<br>
+						q/e - Rotate<br>
+						Q/E - Rotate 180
+					</span>
+				</div>
+				<textarea id="sequence" rows=2 columns=17></textarea><br>
+				<button type="button" id="confirm">Do Turn</button><br>
+				<span id="code"></span>
+			</div>
+		</div>
+		<button onclick="logOut()">Log Out</button>
+		<button onclick="listRooms()">List Rooms</button>
+		<div id="warning" hidden>
+			<span id="warningtext"></span><br>
+			<button onclick="hideWarning()">Ok</button>
+		</div>
+		<div id="p2">
+			<div id="board"></div>
+			<div id="sidebar">
+				<div id="next"></div>
+				<div id="held"></div>
+				<h3 id="score">0 Points</h3>
+				<div id="controls">
+					<span>
+						a/d - Move<br>
+						A/D - Move 2<br>
+						W/w - Hard Drop<br>
+						s - Soft Drop<br>
+						S - Soft Drop 2<br>
+						q/e - Rotate<br>
+						Q/E - Rotate 180
+					</span>
+				</div>
+				<textarea id="sequence" rows=2 columns=17></textarea><br>
+				<button type="button" id="confirm">Do Turn</button>
+			</div>
+		</div>
+		<script src="/__/firebase/8.8.0/firebase-app.js"></script>
+		<script src="/__/firebase/8.8.0/firebase-auth.js"></script>
+		<script src="/__/firebase/init.js"></script>
+		<script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="scripts/square.js"></script>
+		<script type="text/javascript" src="scripts/detritan.js"></script>
+		<script type="text/javascript" src="scripts/engine.js"></script>
+		<script type="text/javascript" src="scripts/client.js"></script>
+		<script type="text/javascript" src="scripts/main.js"></script>
+		<script>
+			let socket;
+
+			const urlParams = new URLSearchParams(window.location.search);
+			const gameCode = urlParams.get("gamecode");
+
+			const warning = document.querySelector("#warning");
+			const warningText = document.querySelector("#warningtext");
+
+			firebase.auth().onAuthStateChanged(async (user) => {
+				if (!user) {
+					window.location.href = "login.html";
+				} else {
+					const token = await user.getIdToken();
+					const auth = {
+						auth: {
+							token: token
+						}
+					};
+
+					if (window.location.hostname === "localhost") {
+						socket = io("http://localhost:3000", auth)
+					} else {
+						socket = io("https://socket.beesbeesbees.me", auth)
+					}
+				
+					socket.on("connect_error", (error) => {
+						showWarning(convertError(error.message));
+						console.error(error);
+					});
+
+					socket.emit("join room", gameCode);
+
+					const client = new Client();
+
+					client.start();
+
+					function listRooms() {
+						socket.emit("list rooms");
+					}
+
+					socket.on("room list", (rooms, players) => {
+						console.log(rooms, players);
+					});
+				}
+			});
+
+			function showWarning(message) {
+				warningText.innerHTML = message;
+				warning.hidden = false;
+			}
+
+			function hideWarning() {
+				warning.hidden = true;
+			}
+		</script>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+	  match /gameStates/{gameCode} {
+		  allow read: if ([resource.data.p1Email, resource.data.p2Email].hasAny([request.auth.token.email]));
+		  allow create: if request.auth != null;
+		  allow update: if (
+				(
+					  resource.data.p1Email == request.auth.token.email &&
+			  		  request.resource.data.diff(resource.data).affectedKeys().hasOnly(["p1Detritan", "p1Sequence", "needsValidation"])
+				  ) ||
+		  		(
+					  resource.data.p1Email == request.auth.token.email &&
+					  request.resource.data.diff(resource.data).affectedKeys().hasOnly(["p2Detritan", "p2Sequence", "needsValidation"])
+				  )
+		  );
+	  }
+  }
+}

@@ -1,0 +1,35 @@
+#p1 {
+	float: left;
+	width: 30%;
+}
+
+#p2 {
+	width: 30%;
+	margin-left: 50%;
+}
+
+#board {
+	display: grid;
+	grid-template-columns: 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em;
+	grid-template-rows: 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em;
+	-ms-grid-columns: 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em;
+	-ms-grid-rows: 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em;
+	float: left;
+}
+
+#sidebar {
+	margin-left: 22em;
+	width: 100%;
+}
+
+.block {
+	background-color: white;
+	border: 1px solid #646f91;
+}
+
+textarea {
+	resize: none;
+	font-size: 20px;
+	overflow: hidden;
+	height: 50px;
+}

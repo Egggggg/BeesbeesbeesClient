@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Detrista Login</title>
+		<link rel="shortcut icon" type="image/png" href="https://cdn.beesbeesbees.me/favicon.png">
+		<link rel="stylesheet" type="text/css" href="styles/main.css">
+		<link rel="stylesheet" type="text/css" href="styles/login.css">
+	</head>
+	<body>
+		<div>
+			<div class="spacer"></div>
+			<img id="googlelogin" src="/google_normal.png" onclick="googleLogin()">
+			<div class="spacer"></div>
+		</div>
+		<div>
+			<h5>or</h5>
+		</div>
+		<form id="login">
+			<div>
+				<label for="email">Email:</label>
+				<input type="text" id="loginemail">
+			</div>
+			<div>
+				<label for="loginpassword">Password:</label>
+				<input type="password" id="loginpassword">
+			</div>
+			<div>
+				<div class="spacer"></div>
+				<input type="submit" value="Login">
+			</div>
+		</form>
+		<br>
+		<form id="createaccount">
+			<div>
+				<label for="createemail">Email:</label>
+				<input type="text" id="createemail">
+			</div>
+			<div>
+				<label for="createpassword">Password:</label>
+				<input type="password" id="createpassword" oninput="passwordChange()">
+			</div>
+			<div>
+				<label for="verifypassword">Re-enter Password:</label>
+				<input type="password" id="verifypassword">
+			</div>
+			<div>
+				<div class="spacer"></div>
+				<div id="warning">
+					<span></span><br>
+					<button type="button" onclick="hideWarning()">Ok</button>
+				</div>
+			</div>
+			<div>
+				<div class="spacer"></div>
+				<div id="strength">
+					<h4>Password Strength</h4>
+					<div>
+						<input type="checkbox" id="length" disabled>
+						<label for="length">At least 8 characters</label>
+					</div>
+					<div>
+						<input type="checkbox" id="capital" disabled>
+						<label for="capital">At least 1 capital letter</label>
+					</div>
+					<div>
+						<input type="checkbox" id="lowercase" disabled>
+						<label for="lowercase">At least 1 lowercase letter</label>
+					</div>
+					<div>
+						<input type="checkbox" id="digit" disabled>
+						<label for="digit">At least 1 digit</label>
+					</div>
+					<div>
+						<input type="checkbox" id="special" disabled>
+						<label for="special">At least 1 special character</label>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div class="spacer"></div>
+				<input type="submit" value="Create Account">
+			</div>
+		</form>
+		<script src="/__/firebase/8.8.0/firebase-app.js"></script>
+		<script src="/__/firebase/8.8.0/firebase-auth.js"></script>
+		<script src="/__/firebase/init.js"></script>
+		<script>
+			const password = document.querySelector("#createpassword");
+			const warning = document.querySelector("#warning");
+			const warningText = warning.querySelector("span");
+
+			warning.style.display = "none";
+
+			const checks = [
+				[
+					document.querySelector("#length"),
+					/(?=.{8,})/
+				],
+				[
+					document.querySelector("#capital"),
+					/(?=.*[A-Z])/
+				],
+				[
+					document.querySelector("#lowercase"),
+					/(?=.*[a-z])/
+				],
+				[
+					document.querySelector("#digit"),
+					/(?=.*[0-9])/
+				],
+				[
+					document.querySelector("#special"),
+					/(?=.*[^a-zA-Z0-9])/
+				]
+			];
+
+			function passwordChange() {
+				const passwordValue = password.value;
+
+				for (let i = 0; i < checks.length; i++) {
+					if (checks[i][1].test(passwordValue)) {
+						checks[i][0].checked = true;
+					} else {
+						checks[i][0].checked = false;
+					}
+				}
+			}
+
+			function showWarning(text) {
+				warning.style.display = "block";
+				warningText.innerHTML = text;
+			}
+
+			function hideWarning() {
+				warning.style.display = "none";
+			}
+		</script>
+		<script src="scripts/login.js"></script>
+	</body>
+</html>

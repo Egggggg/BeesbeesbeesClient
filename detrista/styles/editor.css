@@ -1,0 +1,151 @@
+h3 {
+	text-align: center;
+}
+
+#bodycontainer {
+	display: flex;
+	width: 50em;
+}
+
+#boardcontainer {
+	flex: 2;
+}
+
+#boardcontainer > span {
+	text-align: center;
+	display: block;
+}
+
+#board {
+	display: grid;
+	grid-template-columns: 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em;
+	grid-template-rows: 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em;
+	-ms-grid-columns: 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em;
+	-ms-grid-rows: 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em;
+	float: none;
+}
+
+#colorbuttons {
+	width: 15em;
+	text-align: center;
+	margin-top: 1.5em;
+}
+
+#colorpreviewcontainer {
+	width: 15em;
+	text-align: center;
+}
+
+#colorpreview {
+	width: 7.5em;
+	height: 1.5em;
+	background-color: #8ecdc7;
+	margin-top: 1.5em;
+}
+
+#controls {
+	width: 15em;
+	margin-top: 1.5em;
+	text-align: center;
+}
+
+#controls > span {
+	font-size: .8em;
+}
+
+#statuscontainer {
+	width: 15em;
+	margin-top: 1.5em;
+	text-align: center;
+}
+
+.spacer {
+	margin-left: 3em;
+}
+
+#editorcontainer {
+	flex: 1;
+	text-align: center;
+	width: 15em;
+}
+
+#name {
+	width: 6em;
+}
+
+#upload {
+	margin-bottom: 4.5em;
+}
+
+#previewcontainer {
+	text-align: center;
+	width: 10em;
+}
+
+#editor4 {
+	margin-bottom: 1.5em;
+}
+
+#tips {
+	flex: 2;
+	width: 15em;
+	text-align: center;
+}
+
+.editor {
+	display: inline-grid;
+	grid-template-columns: 1.5em 1.5em 1.5em 1.5em 1.5em;
+	grid-template-rows: 1.5em 1.5em 1.5em 1.5em 1.5em;
+	-ms-grid-columns: 1.5em 1.5em 1.5em 1.5em 1.5em;
+	-ms-grid-rows: 1.5em 1.5em 1.5em 1.5em 1.5em;
+}
+
+.colorbutton {
+	width: 1.5em;
+	height: 1.5em;
+}
+
+.editorchoice {
+	margin-bottom: 1.5em;
+}
+
+.editorchoice > label {
+	font-size: .75em;
+}
+
+.block {
+	background-color: white;
+	border: 1px solid #646f91;
+}
+
+#color0 {
+	background-color: white;
+}
+
+#color1 {
+	background-color: #8ecdc7;
+}
+
+#color2 {
+	background-color: #6161e5;
+}
+
+#color3 {
+	background-color: #e3a34f;
+}
+
+#color4 {
+	background-color: #ede35a;
+}
+
+#color5 {
+	background-color: #70d773;
+}
+
+#color6 {
+	background-color: #ae49e9;
+}
+
+#color7 {
+	background-color: #d85a5a;
+}
