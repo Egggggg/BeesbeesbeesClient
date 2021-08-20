@@ -8,7 +8,7 @@ const options = {
 
 try {
 	let changedFiles = replace.sync(options);
-	console.log(`Modified ${changedFiled.length} files`);
+	console.log(`Modified ${changedFiles.length} files`);
 } catch (error) {
 	console.error("An error occurred: ", error);
 }

@@ -1,0 +1,15 @@
+on:
+  push:
+    branches:
+    - main
+    tags:
+    - "v*"
+
+jobs:
+  release:
+    runs-on: "ubuntu-latest"
+    steps:
+      -uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        prerelease: false
