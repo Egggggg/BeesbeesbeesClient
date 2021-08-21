@@ -19,11 +19,9 @@ class Client {
         this.engineP1 = new Engine(p1Board, 1);
         this.engineP2 = new Engine(p2Board, 2);
 
-		socket.on("room joined", this.onJoined);
-
-		socket.on("move valid", this.onValid);
-
-		socket.on("move invalid", this.onInvalid);
+		socket.on("room joined", () => this.onJoined);
+		socket.on("move valid", () => this.onValid);
+		socket.on("move invalid", () => this.onInvalid);
     }
 
 	/**
