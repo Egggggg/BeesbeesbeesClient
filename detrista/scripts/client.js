@@ -1,19 +1,66 @@
 class Client {
     constructor() {
+		const width = 240;
+		const height = 480;
+
+		this.padding = 10;
+		this.squareSize = Math.floor(width / 10);
         this.playerNum = 1;
         this.engineP1 = null;
         this.engineP2 = null;
+		this.p1Stage = new Konva.Stage({
+			container: "p1board",
+			width: width + (this.padding * 2),
+			height: height + (this.padding * 2)
+		});
+		this.p2Stage = new Konva.Stage({
+			container: "p2board",
+			width: width + (this.padding * 2),
+			height: height + (this.padding * 2)
+		});
     }
 
     start() {
+		const dotLayer = new Konva.Layer();
+		const borderLayer = new Konva.Layer();
+		const border = new Konva.Rect({
+			x: 0,
+			y: 0,
+			width: this.p1Stage.width(),
+			height: this.p1Stage.height(),
+			stroke: "#310865",
+			strokeWidth: 20,
+			cornerRadius: 20
+		})
+
+		borderLayer.add(border);
+
+		for (let y = 0; y < 19; y++) {
+			for (let x = 0; x < 9; x++) {
+				const dot = new Konva.Circle({
+					x: (x * this.squareSize) + this.squareSize + this.padding,
+					y: (y * this.squareSize) + this.squareSize + this.padding,
+					radius: 2,
+					fill: "#752f73"
+				});
+
+				dotLayer.add(dot);
+			}
+		}
+
+		this.p1Stage.add(borderLayer);
+		this.p2Stage.add(borderLayer.clone());
+		this.p1Stage.add(dotLayer);
+		this.p2Stage.add(dotLayer.clone());
+
         let p1Board = [];
         let p2Board = [];
 
         let columns = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
         for (let y = 0; y < 20; y++) {
-            p1Board[y] = columns.map(x => new Square(x, y, "#p1 #board"));
-            p2Board[y] = columns.map(x => new Square(x, y, "#p2 #board"));
+            p1Board[y] = columns.map(x => new Square(x, y, "p1board"));
+            p2Board[y] = columns.map(x => new Square(x, y, "p2board"));
         }
 
         this.engineP1 = new Engine(p1Board, 1);
