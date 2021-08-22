@@ -9,59 +9,64 @@
     </head>
     <body>
 		<div id="header"></div>
-		<div id="p1">
-			<div id="board"></div>
-			<div id="sidebar">
-				<div id="next"></div>
-				<div id="held"></div>
-				<h3 id="score">0 Points</h3>
-				<div id="controls">
-					<span>
-						a/d - Move<br>
-						A/D - Move 2<br>
-						W/w - Hard Drop<br>
-						s - Soft Drop<br>
-						S - Soft Drop 2<br>
-						q/e - Rotate<br>
-						Q/E - Rotate 180
-					</span>
+		<div id="notheader">
+			<div id="content">
+				<div id="gameheader">
+					<button id="exit">Exit</button>
+					<div id="warning" hidden>
+						<span id="warningtext"></span>
+						<button onclick="hideWarning()">Ok</button>
+					</div>
 				</div>
-				<textarea id="sequence" rows=2 columns=17></textarea><br>
-				<button type="button" id="confirm">Do Turn</button><br>
-				<span id="code"></span>
-			</div>
-		</div>
-		<button onclick="logOut()">Log Out</button>
-		<button onclick="listRooms()">List Rooms</button>
-		<div id="warning" hidden>
-			<span id="warningtext"></span><br>
-			<button onclick="hideWarning()">Ok</button>
-		</div>
-		<div id="p2">
-			<div id="board"></div>
-			<div id="sidebar">
-				<div id="next"></div>
-				<div id="held"></div>
-				<h3 id="score">0 Points</h3>
-				<div id="controls">
-					<span>
-						a/d - Move<br>
-						A/D - Move 2<br>
-						W/w - Hard Drop<br>
-						s - Soft Drop<br>
-						S - Soft Drop 2<br>
-						q/e - Rotate<br>
-						Q/E - Rotate 180
-					</span>
+				<div id="p1">
+					<div id="p1board" class="board"></div>
+					<div id="sidebar">
+						<div id="next"></div>
+						<div id="held"></div>
+						<h3 id="score">0 Points</h3>
+						<div id="controls">
+							<span>
+								a/d - Move<br>
+								A/D - Move 2<br>
+								W/w - Hard Drop<br>
+								s - Soft Drop<br>
+								S - Soft Drop 2<br>
+								q/e - Rotate<br>
+								Q/E - Rotate 180
+							</span>
+						</div>
+					</div>
+					<textarea id="sequence" rows=2 columns=17></textarea><br>
+					<button type="button" id="confirm">Do Turn</button><br>
 				</div>
-				<textarea id="sequence" rows=2 columns=17></textarea><br>
-				<button type="button" id="confirm">Do Turn</button>
+				<div id="p2">
+					<div id="p2board" class="board"></div>
+					<div id="sidebar">
+						<div id="next"></div>
+						<div id="held"></div>
+						<h3 id="score">0 Points</h3>
+						<div id="controls">
+							<span>
+								a/d - Move<br>
+								A/D - Move 2<br>
+								W/w - Hard Drop<br>
+								s - Soft Drop<br>
+								S - Soft Drop 2<br>
+								q/e - Rotate<br>
+								Q/E - Rotate 180
+							</span>
+						</div>
+						<textarea id="sequence" rows=2 columns=17></textarea><br>
+						<button type="button" id="confirm">Do Turn</button>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script src="/__/firebase/8.8.0/firebase-app.js"></script>
 		<script src="/__/firebase/8.8.0/firebase-auth.js"></script>
 		<script src="/__/firebase/init.js"></script>
 		<script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
+		<script src="https://unpkg.com/konva@8/konva.min.js"></script>
 		<script type="text/javascript" src="scripts/square.js"></script>
 		<script type="text/javascript" src="scripts/detritan.js"></script>
 		<script type="text/javascript" src="scripts/engine.js"></script>
