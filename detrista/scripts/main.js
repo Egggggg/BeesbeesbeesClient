@@ -9,3 +9,9 @@ function convertError(message) {
 	
 	return message;
 }
+
+const header = document.querySelector("#header");
+
+header.innerHTML = `
+	<img src="img/logo.png" alt="Logo" width="64px" height="64px">
+`

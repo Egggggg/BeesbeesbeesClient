@@ -1,21 +1,46 @@
 html {
-	background-color: #fbfaf9;
+	background-color: #9f0c6c;
+	background: url(../img/desktop.png) no-repeat center center fixed;
+	background-size: cover;
+}
+
+body {
+	margin: 0;
 }
 
 button {
-	background-color: #33bee7;
+	background-color: #fc0821;
 	color: #fbfaf9;
+	border: 0;
+}
+
+button:focus, button:hover {
+	background-color: #fbfaf9;
+	color: #fc0821;
+	outline: none;
 }
 
 button:disabled {
-	background-color: #fbfaf9;
-	color: #33bee7;
+	background-color: #9b9997;
+	color: #fbfaf9;
 }
 
 span, h3, label {
-	color: #646f91;
+	color: #fbfaf9;
 }
 
 input, textarea {
 	color: #25345a;
+}
+
+#header {
+	margin-top: 3em;
+	margin-left: 5%;
+	width: 90%;
+	display: flex;
+}
+
+#notheader {
+	margin-top: 5em;
+	background-color: rgba(0, 0, 0, .5);
 }

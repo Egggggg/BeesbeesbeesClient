@@ -1,3 +1,5 @@
+let currentOrientation = 0;
+
 document.addEventListener("DOMContentLoaded", function() {
 	const board = [];	
 	const boardColumns = new Array(10).fill(0);
@@ -33,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	let boardStart = [0, 0];
 	let color = 1;
 	let mouseDown = -1;
-	let orientation = 0;
 
 	for (let y = 0; y < 20; y++) {
 		board[y] = boardColumns.map((e, x) => new Square(x, y, "#board"));
@@ -170,224 +171,224 @@ document.addEventListener("DOMContentLoaded", function() {
 			});
 		});
 	}
+});
 
-	function setColor(newColor) {
-		color = newColor;
-		colorPreview.style["background-color"] = colors[color];
+function setColor(newColor) {
+	color = newColor;
+	colorPreview.style["background-color"] = colors[color];
 
-		if (color === 0) {
-			return;
-		}
+	if (color === 0) {
+		return;
+	}
 
-		for (let i = 0; i < editors.length; i++) {
-			for (let y = 0; y < editors[i].length; y++) {
-				for (let x = 0; x < editors[i][y].length; x++) {
-					if (editors[i][y][x].color != "white") {
-						editors[i][y][x].setColorFromIndex(color);
-					}
-				}
-			}
-		}
-
-		for (let y = boardStart[0]; y < boardStart[0] + 4; y++) {
-			for (let x = boardStart[1]; x < boardStart[1] + 4; x++) {
-				if (board[y][x].color != "white") {
-					board[y][x].setColorFromIndex(color);
+	for (let i = 0; i < editors.length; i++) {
+		for (let y = 0; y < editors[i].length; y++) {
+			for (let x = 0; x < editors[i][y].length; x++) {
+				if (editors[i][y][x].color != "white") {
+					editors[i][y][x].setColorFromIndex(color);
 				}
 			}
 		}
 	}
 
-	function setSquare(i, x, y) {
-		if (i === 4) {
-			editors[i][y][x].setColorFromIndex(color);
-			return;
-		}
-
-		const index = orientations[i].coords.findIndex((e) => {
-			return e[0] === y && e[1] === x;
-		});
-
-		if (index === -1) {
-			let newOrigin = [...orientations[i].origin];
-			let newEnd = [...orientations[i].end];
-
-			editors[i][y][x].setColorFromIndex(color);
-			orientations[i].coords.push([y, x]);
-
-			if (y < orientations[i].origin[0]) {
-				newOrigin[0] = y;
-			}
-
-			if (x < orientations[i].origin[1]) {
-				newOrigin[1] = x;
-			}
-
-			if (y > orientations[i].end[0]) {
-				newEnd[0] = y;
-			}
-
-			if (x > orientations[i].end[1]) {
-				newEnd[1] = x;
-			}
-
-			if (i === orientation) {
-				redrawBoard(newOrigin, newEnd);
-			} else {
-				orientations[i].origin = newOrigin;
-				orientations[i].end = newEnd;
+	for (let y = boardStart[0]; y < boardStart[0] + 4; y++) {
+		for (let x = boardStart[1]; x < boardStart[1] + 4; x++) {
+			if (board[y][x].color != "white") {
+				board[y][x].setColorFromIndex(color);
 			}
 		}
 	}
+}
 
-	function clearSquare(i, x, y) {
-		editors[i][y][x].setColorFromIndex(0);
+function setSquare(i, x, y) {
+	if (i === 4) {
+		editors[i][y][x].setColorFromIndex(color);
+		return;
+	}
 
-		if (i === 4) {
-			return;
-		}
+	const index = orientations[i].coords.findIndex((e) => {
+		return e[0] === y && e[1] === x;
+	});
 
-		const index = orientations[i].coords.findIndex(e => e[0] === y && e[1] === x);
-
-		if (index === -1) {
-			return;
-		}
-
+	if (index === -1) {
 		let newOrigin = [...orientations[i].origin];
 		let newEnd = [...orientations[i].end];
 
-		if (y === orientations[i].origin[0]) {
-			let square = false;
+		editors[i][y][x].setColorFromIndex(color);
+		orientations[i].coords.push([y, x]);
 
-			for (let e = y; e < 5; e++) {
-				const row = editors[i][e].map(j => j.getColorIndex());
-
-				if (Math.max(...row) > 0) {
-					newOrigin[0] = e;
-					square = true;
-					break;
-				}
-			}
-
-			if (!square) {
-				newOrigin[0] = 4;
-			}
+		if (y < orientations[i].origin[0]) {
+			newOrigin[0] = y;
 		}
 
-		if (x === orientations[i].origin[1]) {
-			let square = false;
-
-			for (let e = x; e < 5; e++) {
-				const column = editors[i].map(j => j[e].getColorIndex());
-
-				if (Math.max(...column) > 0) {
-					newOrigin[1] = e;
-					square = true;
-					break;
-				}
-			}
-
-			if (!square) {
-				newOrigin[1] = 4;
-			}
+		if (x < orientations[i].origin[1]) {
+			newOrigin[1] = x;
 		}
 
-		if (y === orientations[i].end[0]) {
-			let square = false;
-
-			for (let e = y; e >= 0; e--) {
-				const row = editors[i][e].map(j => j.getColorIndex());
-
-				if (Math.max(...row) > 0) {
-					newEnd[0] = e;
-					square = true;
-					break;
-				}
-			}
-
-			if (!square) {
-				newEnd[0] = 0;
-			}
+		if (y > orientations[i].end[0]) {
+			newEnd[0] = y;
 		}
 
-		if (x === orientations[i].end[1]) {
-			let square = false;
-
-			for (let e = x; e >= 0; e--) {
-				const column = editors[i].map(j => j[e].getColorIndex());
-
-				if (Math.max(...column) > 0) {
-					newEnd[1] = e;
-					square = true;
-					break;
-				}
-			}
-
-			if (!square) {
-				newEnd[1] = 0;
-			}
+		if (x > orientations[i].end[1]) {
+			newEnd[1] = x;
 		}
 
-		orientations[i].coords.splice(index, 1);
-
-		if (i === orientation) {
+		if (i === currentOrientation) {
 			redrawBoard(newOrigin, newEnd);
+		} else {
+			orientations[i].origin = newOrigin;
+			orientations[i].end = newEnd;
 		}
 	}
+}
 
-	function redrawBoard(newOrigin=[-1, -1], newEnd=[-1, -1], newBoardStart=[-1, -1], newOrientation=-1) {
-		for (let y = 0; y < 20; y++) {
-			for (let x = 0; x < 10; x++) {
-				board[y][x].setColorFromIndex(0);
+function clearSquare(i, x, y) {
+	editors[i][y][x].setColorFromIndex(0);
+
+	if (i === 4) {
+		return;
+	}
+
+	const index = orientations[i].coords.findIndex(e => e[0] === y && e[1] === x);
+
+	if (index === -1) {
+		return;
+	}
+
+	let newOrigin = [...orientations[i].origin];
+	let newEnd = [...orientations[i].end];
+
+	if (y === orientations[i].origin[0]) {
+		let square = false;
+
+		for (let e = y; e < 5; e++) {
+			const row = editors[i][e].map(j => j.getColorIndex());
+
+			if (Math.max(...row) > 0) {
+				newOrigin[0] = e;
+				square = true;
+				break;
 			}
 		}
 
-		if (newBoardStart[0] === -1 && newBoardStart[1] === -1) {
-			newBoardStart = [...boardStart];
+		if (!square) {
+			newOrigin[0] = 4;
 		}
+	}
 
-		if (newOrientation === -1) {
-			newOrientation = orientation;
-		}
+	if (x === orientations[i].origin[1]) {
+		let square = false;
 
-		if (newOrigin[0] === -1 && newOrigin[1] === -1) {
-			newOrigin = [...orientations[newOrientation].origin];
-		}
+		for (let e = x; e < 5; e++) {
+			const column = editors[i].map(j => j[e].getColorIndex());
 
-		if (newEnd[0] === -1 && newEnd[1] === -1) {
-			newEnd = [...orientations[newOrientation].end];
-		}
-
-		if (!autoadjust) {
-			newOrigin = [0, 0];
-			newEnd = [4, 4];
-		}
-
-		if ((newEnd[0] - newOrigin[0]) + newBoardStart[0] > 19) {
-			newBoardStart[0] -= ((newEnd[0] - newOrigin[0]) + newBoardStart[0]) - 19;
-		}
-
-		if ((newEnd[1] - newOrigin[1]) + newBoardStart[1] > 9) {
-			newBoardStart[1] -= ((newEnd[1] - newOrigin[1]) + newBoardStart[1]) - 9;
-		}
-
-		for (let y = 0; y < 5; y++) {
-			for (let x = 0; x < 5; x++) {
-				const boardY = y + newBoardStart[0] - newOrigin[0];
-				const boardX = x + newBoardStart[1] - newOrigin[1];
-
-				if (editors[newOrientation][y][x].getColorIndex() > 0) {
-					board[boardY][boardX].setColorFromIndex(color);
-				}
+			if (Math.max(...column) > 0) {
+				newOrigin[1] = e;
+				square = true;
+				break;
 			}
 		}
 
-		if (autoadjust) {
-			orientations[newOrientation].origin = [...newOrigin];
-			orientations[newOrientation].end = [...newEnd];
+		if (!square) {
+			newOrigin[1] = 4;
+		}
+	}
+
+	if (y === orientations[i].end[0]) {
+		let square = false;
+
+		for (let e = y; e >= 0; e--) {
+			const row = editors[i][e].map(j => j.getColorIndex());
+
+			if (Math.max(...row) > 0) {
+				newEnd[0] = e;
+				square = true;
+				break;
+			}
 		}
 
-		boardStart = [...newBoardStart];
-		orientation = newOrientation;
+		if (!square) {
+			newEnd[0] = 0;
+		}
 	}
-});
+
+	if (x === orientations[i].end[1]) {
+		let square = false;
+
+		for (let e = x; e >= 0; e--) {
+			const column = editors[i].map(j => j[e].getColorIndex());
+
+			if (Math.max(...column) > 0) {
+				newEnd[1] = e;
+				square = true;
+				break;
+			}
+		}
+
+		if (!square) {
+			newEnd[1] = 0;
+		}
+	}
+
+	orientations[i].coords.splice(index, 1);
+
+	if (i === currentOrientation) {
+		redrawBoard(newOrigin, newEnd);
+	}
+}
+
+function redrawBoard(newOrigin=[-1, -1], newEnd=[-1, -1], newBoardStart=[-1, -1], newOrientation=-1) {
+	for (let y = 0; y < 20; y++) {
+		for (let x = 0; x < 10; x++) {
+			board[y][x].setColorFromIndex(0);
+		}
+	}
+
+	if (newBoardStart[0] === -1 && newBoardStart[1] === -1) {
+		newBoardStart = [...boardStart];
+	}
+
+	if (newOrientation === -1) {
+		newOrientation = currentOrientation;
+	}
+
+	if (newOrigin[0] === -1 && newOrigin[1] === -1) {
+		newOrigin = [...orientations[newOrientation].origin];
+	}
+
+	if (newEnd[0] === -1 && newEnd[1] === -1) {
+		newEnd = [...orientations[newOrientation].end];
+	}
+
+	if (!autoadjust) {
+		newOrigin = [0, 0];
+		newEnd = [4, 4];
+	}
+
+	if ((newEnd[0] - newOrigin[0]) + newBoardStart[0] > 19) {
+		newBoardStart[0] -= ((newEnd[0] - newOrigin[0]) + newBoardStart[0]) - 19;
+	}
+
+	if ((newEnd[1] - newOrigin[1]) + newBoardStart[1] > 9) {
+		newBoardStart[1] -= ((newEnd[1] - newOrigin[1]) + newBoardStart[1]) - 9;
+	}
+
+	for (let y = 0; y < 5; y++) {
+		for (let x = 0; x < 5; x++) {
+			const boardY = y + newBoardStart[0] - newOrigin[0];
+			const boardX = x + newBoardStart[1] - newOrigin[1];
+
+			if (editors[newOrientation][y][x].getColorIndex() > 0) {
+				board[boardY][boardX].setColorFromIndex(color);
+			}
+		}
+	}
+
+	if (autoadjust) {
+		orientations[newOrientation].origin = [...newOrigin];
+		orientations[newOrientation].end = [...newEnd];
+	}
+
+	boardStart = [...newBoardStart];
+	currentOrientation = newOrientation;
+}

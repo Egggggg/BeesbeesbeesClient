@@ -8,6 +8,14 @@ class Detritan {
 		this.draw();
 	}
 
+	/**
+	 * Moves the Detritan left (dir=-1) or right (dir=1)
+	 * @function moveLeftRight
+	 * @param {(-1 | 1)} dir          Direction to move
+	 * @param {number}   times=1      Times to move in direction
+	 * @param {number}   newOrient=-1 New orientation (for kicks)
+	 * @returns {boolean}
+	 */
 	moveLeftRight(dir, times=1, newOrient=-1) {
 		if (this.checkMoveLeftRight(dir, "global", times, newOrient)) {
 			this.erase();
@@ -21,6 +29,15 @@ class Detritan {
 		return false;
 	}
 
+	/**
+	 * Checks if the Detritan can move left (dir=-1) or right (dir=1)
+	 * @function checkMoveLeftRight
+	 * @param {(-1 | 1)}            dir       Direction to move (left: -1, right: 1) 
+	 * @param {("global" | "test")} from      Property to check
+	 * @param {number}              times     Times to move in direction
+	 * @param {number}              newOrient New orientation (for kicks)
+	 * @returns {boolean}
+	 */
 	checkMoveLeftRight(dir, from, times=1, newOrient=-1) {
 		newOrient = newOrient === -1 ? this.shape.orientation : newOrient;
 		
@@ -53,6 +70,14 @@ class Detritan {
 		return true;
 	}
 
+	/**
+	 * Moves the Detritan up (dir=-1) or down (dir=1)
+	 * @function moveUpDown
+	 * @param {(-1 | 1)} dir          Direction to move (up: -1, down: 1)
+	 * @param {number}   times=1      Times to move
+	 * @param {number}   newOrient=-1 New orientation (for kicks)
+	 * @returns {boolean}
+	 */
 	moveUpDown(dir, times=1, newOrient=-1) {
 		if (this.checkMoveUpDown(dir, "global", times, newOrient)) {
 			this.erase();
@@ -66,6 +91,15 @@ class Detritan {
 		return false;
 	}
 
+	/**
+	 * Checks if the Detritan can move up (dir=-1) or down(dir=1)
+	 * @function checkMoveUpDown
+	 * @param {(-1 | 1)}            dir          Direction to move (up: -1, down: 1)
+	 * @param {("global" | "test")} from         Property to check
+	 * @param {number}              times=1      Times to move
+	 * @param {number}              newOrient=-1 New orientation (for kicks)
+	 * @returns {boolean}
+	 */
 	checkMoveUpDown(dir, from, times=1, newOrient=-1) {
 		newOrient = newOrient === -1 ? this.shape.orientation : newOrient;
 		
@@ -98,6 +132,12 @@ class Detritan {
 		return true;
 	}
 
+	/**
+	 * Rotates the Detritan by <by> orientations (multiples of 90 degrees clockwise)
+	 * @function rotate
+	 * @param {number} by Number of orientations to rotate by
+	 * @returns {boolean}
+	 */
 	rotate(by) {
 		while (by < 0) {
 			by += 4;
@@ -114,6 +154,12 @@ class Detritan {
 		return false;
 	}
 
+	/**
+	 * Checks if the Detritan can rotate by <by> orientations (multiples of 90 degrees clockwise)
+	 * @param {number}              by   Number of orientations to rotate by
+	 * @param {("global" | "test")} from Property to check
+	 * @returns {boolean}
+	 */
 	checkRotate(by, from) {
 		const newOrient = (this.shape.orientation + by) % 4;
 
@@ -141,6 +187,12 @@ class Detritan {
 		return valid;
 	}
 
+	/**
+	 * Drops the Detritan as many times as possible
+	 * Returns false only if it can't drop at all
+	 * @function hardDrop
+	 * @returns {boolean}
+	 */
 	hardDrop() {
 		let valid = false;
 
@@ -152,9 +204,20 @@ class Detritan {
 		return valid;
 	}
 
+	/**
+	 * Moves the test Detritan left (dir=-1) or right (dir=1)
+	 * @function testMoveLeftRight
+	 * @param {(-1 | 1)} dir          Direction to move
+	 * @param {number}   times=1      Times to move in direction
+	 * @param {number}   newOrient=-1 New orientation (for kicks)
+	 * @returns {boolean}
+	 */
 	testMoveLeftRight(dir, times=1, newOrient=-1) {
-		if (this.checkMoveLeftRight(dir, "test", times)) {
+		newOrient = newOrient === -1 ? this.shape.orientation : newOrient;
+
+		if (this.checkMoveLeftRight(dir, "test", times, newOrient)) {
 			this.shape.test[1] += dir * times;
+			this.shape.testOrientation = newOrient
 
 			return true;
 		}
@@ -162,16 +225,33 @@ class Detritan {
 		return false;
 	}
 
+	/**
+	 * Moves the test Detritan up (dir=-1) or down (dir=1)
+	 * @function testMoveUpDown
+	 * @param {(-1 | 1)} dir          Direction to move (up: -1, down: 1)
+	 * @param {number}   times=1      Times to move
+	 * @param {number}   newOrient=-1 New orientation (for kicks)
+	 * @returns {boolean}
+	 */
 	testMoveUpDown(dir, times=1, newOrient=-1) {
-		if (this.checkMoveUpDown(dir, "test", times)) {
+		newOrient = newOrient === -1 ? this.shape.orientation : newOrient;
+
+		if (this.checkMoveUpDown(dir, "test", times, newOrient)) {
 			this.shape.test[0] += dir * times;
-			
+			this.shape.testOrientation = newOrient;
+
 			return true;
 		}
 
 		return false;
 	}
 
+	/**
+	 * Drops the test Detritan as many times as possible
+	 * Returns false only if it can't drop at all
+	 * @function hardDrop
+	 * @returns {boolean}
+	 */
 	testHardDrop() {
 		let valid = false;
 
@@ -183,6 +263,12 @@ class Detritan {
 		return valid;
 	}
 
+	/**
+	 * Rotates the test Detritan by <by> orientations (multiples of 90 degrees clockwise)
+	 * @function rotate
+	 * @param {number} by Number of orientations to rotate by
+	 * @returns {boolean}
+	 */
 	testRotate(by) {
 		while (by < 0) {
 			by += 4;
@@ -196,7 +282,12 @@ class Detritan {
 
 		return false;
 	}
-
+	
+	/**
+	 * Places the Detritan on the board
+	 * Sets the corresponding cells of the board to the Detritan's color
+	 * @function place
+	 */
 	place() {
 		this.erase();
 
@@ -209,6 +300,11 @@ class Detritan {
 		this.shape.global = [...this.shape.start];
 	}
 
+	/**
+	 * Erases the Detritans coordinates
+	 * Used before redrawing the Detritan
+	 * @function erase
+	 */
 	erase() {
 		for (let square of this.shape.orientations[this.shape.orientation]) {
 			const coord = [this.shape.global[0] + square[0], this.shape.global[1] + square[1]];
@@ -218,6 +314,10 @@ class Detritan {
 		};
 	}
 
+	/**
+	 * Draws the Detritans coordinates in the Detritans color
+	 * @function draw
+	 */
 	draw() {
 		for (let square of this.shape.orientations[this.shape.orientation]) {
 			const coord = [this.shape.global[0] + square[0], this.shape.global[1] + square[1]];
