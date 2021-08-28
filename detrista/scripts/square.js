@@ -1,5 +1,5 @@
 const colors = [
-	"white",
+	"rgba(0, 0, 0, 0)",
 	"#8ecdc7", // light blue, I, 1
 	"#6161e5", // blue, J, 2
 	"#e3a34f", // orange, L, 3
@@ -10,7 +10,7 @@ const colors = [
 ];
 
 class Square {
-	constructor(x, y, container) {
+	constructor(x, y, container=null) {
 		this.x = x;
 		this.y = y;
 		
@@ -18,17 +18,25 @@ class Square {
 		this.full = false;
 		this.active = false;
 
-		let span = document.createElement("span");
-		span.setAttribute("id", `${x}x${y}y`);
-		span.setAttribute("class", "block");
+		if (container !== null) {
+			let span = document.createElement("span");
+			span.setAttribute("id", `${x}x${y}y`);
+			span.setAttribute("class", "block");
 
-		this.node = document.querySelector(container).appendChild(span);
+			this.test = false;
+			this.node = document.querySelector(container).appendChild(span);
+		} else {
+			this.test = true;
+		}
 	}
 
 	setColor(color) {
 		this.full = color != "white";
 		this.color = color;
-		this.node.style.backgroundColor = color;
+
+		if (!this.test) {
+			this.node.style.backgroundColor = color;
+		}
 	}
 
 	getColorIndex() {
