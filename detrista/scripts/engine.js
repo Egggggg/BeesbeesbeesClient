@@ -1,5 +1,5 @@
 class Engine {
-	constructor(board, playerNum) {
+	constructor(board, playerNum=-1) {
 		this.board = board;
 		this.playerNum = playerNum;
 
@@ -7,32 +7,43 @@ class Engine {
 		this.lastSequence = "";
 		this.otherPlayerNum = playerNum === 1 ? 2 : 1;
 		this.points = 0;
-		this.pointsNode = document.querySelector(`#p${this.playerNum} #score`);
 
-		this.sequenceInput = document.querySelector(`#p${this.playerNum} #sequence`)
-		this.sequenceInput.oninput = () => {
-			if (this.sequenceInput.value != "") {
-				if (this.sequenceInput.value.length > 50) {
+		if (this.playerNum !== -1) {
+			this.pointsNode = document.querySelector(`#p${this.playerNum} #score`);
+
+			this.sequenceInput = document.querySelector(`#p${this.playerNum} #sequence`)
+			this.sequenceInput.oninput = () => {
+				if (this.sequenceInput.value != "") {
+					if (this.sequenceInput.value.length > 50) {
+						this.sequenceInput.value = this.lastSequence;
+						return;
+					}
+
+					if (this.checkInput(this.sequenceInput.value)) {
+						if (this.checkMove(this.sequenceInput.value)) {
+							this.doSequence(this.sequenceInput.value.split(""), 0);
+							this.lastSequence = this.sequenceInput.value;
+
+							return;
+						}
+					}
+
 					this.sequenceInput.value = this.lastSequence;
+				} else {
+					this.active.erase();
+					this.active.shape.global = [...this.active.shape.start];
+					this.active.shape.orientation = 0;
+					this.active.draw();
+					this.lastSequence = this.sequenceInput.value;
+				}
+			}
+
+			document.querySelector(`#p${this.playerNum} #confirm`).onclick = () => {
+				if (this.sequenceInput.value === "") {
 					return;
 				}
 
-				if (this.checkInput(this.sequenceInput.value)) {
-					if (this.checkMove(this.sequenceInput.value)) {
-						this.doSequence(this.sequenceInput.value.split(""), 0);
-						this.lastSequence = this.sequenceInput.value;
-
-						return;
-					}
-				}
-				
-				this.sequenceInput.value = this.lastSequence;
-			} else {
-				this.active.erase();
-				this.active.shape.global = [...this.active.shape.start];
-				this.active.shape.orientation = 0;
-				this.active.draw();
-				this.lastSequence = this.sequenceInput.value;
+				socket.emit("submit move", this.playerNum, this.sequenceInput.value)
 			}
 		}
 
@@ -64,14 +75,6 @@ class Engine {
 			"Q": [this.testRotate, this, 2],
 			"e": [this.testRotate, this, 1],
 			"E": [this.testRotate, this, 2]
-		}
-
-		document.querySelector(`#p${this.playerNum} #confirm`).onclick = () => {
-			if (this.sequenceInput.value === "") {
-				return;
-			}
-
-			socket.emit("submit move", this.playerNum, this.sequenceInput.value)
 		}
 	}
 
@@ -231,6 +234,9 @@ class Engine {
 
 	setPoints(newPoints) {
 		this.points = newPoints;
-		this.pointsNode.innerHTML = `${this.points} Points`;
+
+		if (this.playerNum !== -1) {
+			this.pointsNode.innerHTML = `${this.points} Points`;
+		}
 	}
 }
