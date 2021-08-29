@@ -47,3 +47,7 @@ class Square {
 		this.setColor(colors[index]);
 	}
 }
+
+module.exports = {
+	Square: Square
+}
