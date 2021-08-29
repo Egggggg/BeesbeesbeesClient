@@ -1,3 +1,5 @@
+const { Detritan } = require("./detritan");
+
 class Engine {
 	constructor(board, playerNum=-1) {
 		this.board = board;
@@ -14,7 +16,7 @@ class Engine {
 			this.sequenceInput = document.querySelector(`#p${this.playerNum} #sequence`)
 			this.sequenceInput.oninput = () => {
 				if (this.sequenceInput.value != "") {
-					if (this.sequenceInput.value.length > 50) {
+					if (this.sequenceInput.value.length > 30) {
 						this.sequenceInput.value = this.lastSequence;
 						return;
 					}
@@ -175,7 +177,7 @@ class Engine {
 		});
 	}
 
-	doSequence(sequence, time) {
+	doSequence(sequence, time=0) {
 		this.active.erase();
 		this.active.shape.global = [...this.active.shape.start];
 		this.active.shape.orientation = 0;
@@ -240,3 +242,8 @@ class Engine {
 		}
 	}
 }
+
+module.exports = {
+	Engine: Engine
+}
+
