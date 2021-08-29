@@ -3,8 +3,6 @@ class Detritan {
 		this.shape = shape;
 		this.board = board;
 
-		console.log(this.shape);
-
 		this.draw();
 	}
 
@@ -326,4 +324,8 @@ class Detritan {
 			this.board[coord[0]][coord[1]].active = true;
 		};
 	}
+}
+
+module.exports = {
+	Detritan: Detritan
 }
