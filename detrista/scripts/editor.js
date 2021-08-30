@@ -2,10 +2,10 @@ let currentOrientation = 0;
 
 document.addEventListener("DOMContentLoaded", function() {
 	const board = [];	
-	const boardColumns = new Array(10).fill(0);
+	const boardRows = new Array(20).fill(0);
 	const colorButtons = document.querySelectorAll(".colorbutton");
 	const colorPreview = document.querySelector("#colorpreview");
-	const editorColumns = new Array(5).fill(0);
+	const editorRows = new Array(5).fill(0);
 	const editors = [[], [], [], [], []];
 	const orientations = [
 		{
@@ -36,13 +36,13 @@ document.addEventListener("DOMContentLoaded", function() {
 	let color = 1;
 	let mouseDown = -1;
 
-	for (let y = 0; y < 20; y++) {
-		board[y] = boardColumns.map((e, x) => new Square(x, y, "#board"));
+	for (let x = 0; x < 10; x++) {
+		board[x] = boardColumns.map((e, y) => new Square(x, y, "#board"));
 	}
 
 	for (let i = 0; i < 5; i++) {
-		for (let y = 0; y < 5; y++) {
-			editors[i][y] = editorColumns.map((e, x) => new Square(x, y, `#editor${i}`))
+		for (let x = 0; x < 5; x++) {
+			editors[i][x] = editorColumns.map((e, y) => new Square(x, y, `#editor${i}`))
 		}
 	}
 
@@ -93,11 +93,11 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 	}
 
-	for (let y = 0; y < 20; y++) {
-		for (let x = 0; x < 10; x++) {
-			board[y][x].node.onclick = (e) => {
+	for (let x = 0; x < 10; x++) {
+		for (let y = 0; y < 20; y++) {
+			board[x][y].node.onclick = (e) => {
 				if (e.button === 0) {
-					redrawBoard([-1, -1], [-1, -1], [y, x]);
+					redrawBoard([-1, -1], [-1, -1], [x, y]);
 				}
 			}
 		}
@@ -191,10 +191,10 @@ function setColor(newColor) {
 		}
 	}
 
-	for (let y = boardStart[0]; y < boardStart[0] + 4; y++) {
-		for (let x = boardStart[1]; x < boardStart[1] + 4; x++) {
-			if (board[y][x].color != "white") {
-				board[y][x].setColorFromIndex(color);
+	for (let x = boardStart[0]; x < boardStart[0] + 4; x++) {
+		for (let y = boardStart[1]; y < boardStart[1] + 4; y++) {
+			if (board[x][y].color != "white") {
+				board[x][y].setColorFromIndex(color);
 			}
 		}
 	}
@@ -338,9 +338,9 @@ function clearSquare(i, x, y) {
 }
 
 function redrawBoard(newOrigin=[-1, -1], newEnd=[-1, -1], newBoardStart=[-1, -1], newOrientation=-1) {
-	for (let y = 0; y < 20; y++) {
-		for (let x = 0; x < 10; x++) {
-			board[y][x].setColorFromIndex(0);
+	for (let x = 0; x < 10; x++) {
+		for (let y = 0; y < 20; y++) {
+			board[x][y].setColorFromIndex(0);
 		}
 	}
 
@@ -373,13 +373,13 @@ function redrawBoard(newOrigin=[-1, -1], newEnd=[-1, -1], newBoardStart=[-1, -1]
 		newBoardStart[1] -= ((newEnd[1] - newOrigin[1]) + newBoardStart[1]) - 9;
 	}
 
-	for (let y = 0; y < 5; y++) {
-		for (let x = 0; x < 5; x++) {
+	for (let x = 0; x < 5; x++) {
+		for (let y = 0; y < 5; y++) {
 			const boardY = y + newBoardStart[0] - newOrigin[0];
 			const boardX = x + newBoardStart[1] - newOrigin[1];
 
-			if (editors[newOrientation][y][x].getColorIndex() > 0) {
-				board[boardY][boardX].setColorFromIndex(color);
+			if (editors[newOrientation][x][y].getColorIndex() > 0) {
+				board[boardX][boardY].setColorFromIndex(color);
 			}
 		}
 	}

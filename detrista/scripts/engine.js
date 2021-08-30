@@ -206,9 +206,9 @@ class Engine {
 	}
 
 	sync(board, detritan) {
-		for (let y = 0; y < board.length; y++) {
-			for (let x = 0; x < board[y].length; x++) {
-				this.board[y][x].setColorFromIndex(board[y][x]);
+		for (let x = 0; x < board.length; x++) {
+			for (let x = 0; y < board[x].length; y++) {
+				this.board[x][y].setColorFromIndex(board[x][y]);
 			}
 		}
 
@@ -226,9 +226,9 @@ class Engine {
 
 		for (let y = top - 1; y >= 0; y--) {
 			for (let x = 0; x < 10; x++) {
-				if (!this.board[y][x].active) {
-					this.board[y + times][x].setColor(this.board[y][x].color);
-					this.board[y][x].setColorFromIndex(0);
+				if (!this.board[x][y].active) {
+					this.board[x][y + times].setColor(this.board[x][y].color);
+					this.board[x][y].setColorFromIndex(0);
 				}
 			}
 		}
