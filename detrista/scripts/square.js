@@ -14,7 +14,7 @@ class Square {
 		this.x = x;
 		this.y = y;
 		
-		this.color = "white";
+		this.color = colors[0];
 		this.full = false;
 		this.active = false;
 
@@ -31,7 +31,7 @@ class Square {
 	}
 
 	setColor(color) {
-		this.full = color != "white";
+		this.full = color != colors[0];
 		this.color = color;
 
 		if (!this.test) {

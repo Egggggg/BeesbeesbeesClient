@@ -35,8 +35,8 @@ class Client {
 
 		borderLayer.add(border);
 
-		for (let y = 0; y < 19; y++) {
-			for (let x = 0; x < 9; x++) {
+		for (let x = 0; x < 9; x++) {
+			for (let y = 0; y < 19; y++) {
 				const dot = new Konva.Circle({
 					x: (x * this.squareSize) + this.squareSize + this.padding,
 					y: (y * this.squareSize) + this.squareSize + this.padding,
@@ -56,11 +56,11 @@ class Client {
         let p1Board = [];
         let p2Board = [];
 
-        let columns = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+		let columns = new Array(20).fill(0);
 
-        for (let y = 0; y < 20; y++) {
-            p1Board[y] = columns.map(x => new Square(x, y, "p1board"));
-            p2Board[y] = columns.map(x => new Square(x, y, "p2board"));
+        for (let x = 0; x < 10; y++) {
+            p1Board[x] = columns.map((e, y) => new Square(x, y, "p1board"));
+            p2Board[x] = columns.map((e, y) => new Square(x, y, "p2board"));
         }
 
         this.engineP1 = new Engine(p1Board, 1);
