@@ -18,7 +18,7 @@ class Detritan {
 		if (this.checkMoveLeftRight(dir, "global", times, newOrient)) {
 			this.erase();
 			this.shape.orientation = newOrient === -1 ? this.shape.orientation : newOrient;
-			this.shape.global[1] += dir * times;
+			this.shape.global[0] += dir * times;
 			this.draw();
 
 			return true;
@@ -47,7 +47,7 @@ class Detritan {
 			data.forEach((square) => {
 				const coords = [testPos[0] + square[0], testPos[1] + square[1] + dir];
 
-				if (coords[1] <= -1 || coords[1] >= 10) {
+				if (coords[0] <= -1 || coords[0] >= 10) {
 					valid = false;
 					return;
 				}
@@ -62,7 +62,7 @@ class Detritan {
 				return false;
 			}
 
-			testPos[1] += dir;
+			testPos[0] += dir;
 		}
 
 		return true;
@@ -80,7 +80,7 @@ class Detritan {
 		if (this.checkMoveUpDown(dir, "global", times, newOrient)) {
 			this.erase();
 			this.shape.orientation = newOrient === -1 ? this.shape.orientation : newOrient;
-			this.shape.global[0] += dir * times;
+			this.shape.global[1] += dir * times;
 			this.draw();
 
 			return true;
@@ -109,7 +109,7 @@ class Detritan {
 			data.forEach((square) => {
 				const coords = [testPos[0] + square[0] + dir, testPos[1] + square[1]];
 
-				if (coords[0] <= -1 || coords[0] >= 20) {
+				if (coords[1] <= -1 || coords[1] >= 20) {
 					valid = false;
 					return;
 				}
@@ -124,7 +124,7 @@ class Detritan {
 				return false;
 			}
 
-			testPos[0] += dir;
+			testPos[1] += dir;
 		}
 
 		return true;
@@ -214,7 +214,7 @@ class Detritan {
 		newOrient = newOrient === -1 ? this.shape.orientation : newOrient;
 
 		if (this.checkMoveLeftRight(dir, "test", times, newOrient)) {
-			this.shape.test[1] += dir * times;
+			this.shape.test[0] += dir * times;
 			this.shape.testOrientation = newOrient
 
 			return true;
@@ -235,7 +235,7 @@ class Detritan {
 		newOrient = newOrient === -1 ? this.shape.orientation : newOrient;
 
 		if (this.checkMoveUpDown(dir, "test", times, newOrient)) {
-			this.shape.test[0] += dir * times;
+			this.shape.test[1] += dir * times;
 			this.shape.testOrientation = newOrient;
 
 			return true;

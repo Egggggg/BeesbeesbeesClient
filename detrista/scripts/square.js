@@ -31,9 +31,9 @@ class Square {
 	}
 
 	setColor(color) {
-		this.full = color != colors[0];
+		this.full = color !== colors[0];
 		this.color = color;
-
+		
 		if (!this.test) {
 			this.node.style.backgroundColor = color;
 		}
