@@ -1,6 +1,6 @@
 class Detritan {
 	constructor(shape, board) {
-		this.shape = shape;
+		this.shape = {...shape};
 		this.board = board;
 
 		this.draw();
@@ -147,13 +147,20 @@ class Detritan {
 			this.draw();
 
 			return true;
-		};
+		} else if (this.checkKick(by, "global")) {
+			this.erase();
+			this.kick(by, "global");
+			this.draw();
+
+			return true;
+		}
 
 		return false;
 	}
 
 	/**
 	 * Checks if the Detritan can rotate by <by> orientations (multiples of 90 degrees clockwise)
+	 * @function checkRotate
 	 * @param {number}              by   Number of orientations to rotate by
 	 * @param {("global" | "test")} from Property to check
 	 * @returns {boolean}
@@ -161,12 +168,8 @@ class Detritan {
 	checkRotate(by, from) {
 		const newOrient = (this.shape.orientation + by) % 4;
 
-		console.log(newOrient);
-
 		const data = this.shape.orientations[newOrient];
 		let valid = true;
-
-		console.log(data);
 
 		data.forEach((square) => {
 			const coords = [this.shape[from][0] + square[0], this.shape[from][1] + square[1]];
@@ -183,6 +186,17 @@ class Detritan {
 		});
 
 		return valid;
+	}
+
+	/**
+	 * Checks if a Detritan can kick when it rotates by <by> orientations
+	 * @function checkKick
+	 * @param {number}              by   Number of orientations to rotate by 
+	 * @param {("global" | "test")} from Property to check
+	 * @returns {boolean}
+	 */
+	checkKick(by, from) {
+		
 	}
 
 	/**
@@ -274,6 +288,10 @@ class Detritan {
 
 		if (this.checkRotate(by, "test")) {
 			this.shape.testOrientation = (this.shape.testOrientation + by) % 4;
+
+			return true;
+		} else if (this.checkKick(by, "test")) {
+			this.kick(by, "test");
 
 			return true;
 		}
