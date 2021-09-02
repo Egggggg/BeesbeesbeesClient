@@ -254,4 +254,95 @@ describe("with empty board", () => {
 			expect(engine.active.shape.test).toStrictEqual([4, 18]);
 		});
 	});
+
+	describe("rotate S", () => {
+		test("standard clockwise", () => {
+			const expected = [
+				[4, 0],
+				[4, 1],
+				[5, 1],
+				[5, 2]
+			];
+
+			engine.spawn(shapes.s);
+			engine.rotate(engine, 1);
+
+			for (let x = 0; x < 10; x++) {
+				for (let y = 0; y < 20; y++) {
+					let colored = false;
+
+					for (let i = 0; i < expected.length; i++) {
+						if (expected[i][0] === x && expected[i][1] === y) {
+							colored = true;
+							expect(engine.board[x][y].getColorIndex()).toBe(shapes.s.color);
+						}
+					}
+
+					if (!colored) {
+						expect(engine.board[x][y].getColorIndex()).toBe(0);
+					}
+				}
+			}
+		});
+
+		test("standard counterclockwise", () => {
+			const expected = [
+				[3, 0],
+				[3, 1],
+				[4, 1],
+				[4, 2]
+			];
+
+			engine.spawn(shapes.s);
+			engine.rotate(engine, -1);
+
+			for (let x = 0; x < 10; x++) {
+				for (let y = 0; y < 20; y++) {
+					let colored = false;
+
+					for (let i = 0; i < expected.length; i++) {
+						if (expected[i][0] === x && expected[i][1] === y) {
+							colored = true;
+
+							expect(engine.board[x][y].getColorIndex()).toBe(shapes.s.color);
+						}
+					}
+
+					if (!colored) {
+						expect(engine.board[x][y].getColorIndex()).toBe(0);
+					}
+				}
+			}
+		});
+
+		test("clockwise kick", () => {
+			const expected = [
+				[1, 0],
+				[2, 0],
+				[0, 1],
+				[1, 1]
+			];
+
+			engine.spawn(shapes.s);
+			engine.doSequence("eaaaaq".split(""));
+
+			for (let x = 0; x < 10; x++) {
+				for (let y = 0; y < 20; y++) {
+					let colored = false;
+
+					for (let i = 0; i < expected.length; i++) {
+						if (expected[i][0] === x && expected[i][1] === y) {
+							colored = true;
+
+							expect(engine.board[x][y].getColorIndex()).toBe(shapes.s.color);
+						}
+					}
+
+					if (!colored) {
+						expect(engine.board[x][y].getColorIndex()).toBe(0);
+					}
+				}
+			}
+		});
+	});
 });
