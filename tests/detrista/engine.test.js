@@ -30,13 +30,16 @@ describe("with empty board", () => {
 
 			for (let x = 0; x < 10; x++) {
 				for (let y = 0; y < 20; y++) {
-					if (expected.includes([x, y])) {
-						expect(engine.board[x][y].getColorIndex()).toBe(shapes.i.color);
-					} else {
-						if (engine.board[x][y].getColorIndex() !== 0) {
-							console.log(x, y);
-						}
+					let colored = false;
 
+					for (let i = 0; i < expected.length; i++) {
+						if (expected[i][0] === x && expected[i][1] === y) {
+							colored = true;
+							expect(engine.board[x][y].getColorIndex()).toBe(shapes.i.color);
+						}
+					}
+
+					if (!colored) {
 						expect(engine.board[x][y].getColorIndex()).toBe(0);
 					}
 				}
@@ -51,25 +54,62 @@ describe("with empty board", () => {
 		});
 
 		test("out of bounds", () => {
+			const expected = [
+				[0, 1],
+				[1, 1],
+				[2, 1],
+				[3, 1]
+			];
+
 			engine.spawn(shapes.i);
-			
 			engine.doSequence("aaaaa".split(""));
 
-			for (let i = 0; i < 4; i++) {
-				expect(engine.board[i][1].getColorIndex()).toBe(shapes.i.color);
+			for (let x = 0; x < 10; x++) {
+				for (let y = 0; y < 20; y++) {
+					let colored = false;
+
+					for (let i = 0; i < expected.length; i++) {
+						if (expected[i][0] === x && expected[i][1] === y) {
+							colored = true;
+							expect(engine.board[x][y].getColorIndex()).toBe(shapes.i.color);
+						}
+					}
+
+					if (!colored) {
+						expect(engine.board[x][y].getColorIndex()).toBe(0);
+					}
+				}
 			}
 		});
 	});
 
 	describe("move J right", () => {
 		test("standard", () => {
+			const expected = [
+				[4, 0],
+				[4, 1],
+				[5, 1],
+				[6, 1]
+			];
+
 			engine.spawn(shapes.j);
 			engine.moveLeftRight(engine, 1);
 
-			expect(engine.board[4][0].getColorIndex()).toBe(shapes.j.color);
+			for (let x = 0; x < 10; x++) {
+				for (let y = 0; y < 20; y++) {
+					let colored = false;
 
-			for (let i = 4; i < 7; i++) {
-				expect(engine.board[i][1].getColorIndex()).toBe(shapes.j.color);
+					for (let i = 0; i < expected.length; i++) {
+						if (expected[i][0] === x && expected[i][1] === y) {
+							colored = true;
+							expect(engine.board[x][y].getColorIndex()).toBe(shapes.j.color);
+						}
+					}
+
+					if (!colored) {
+						expect(engine.board[x][y].getColorIndex()).toBe(0);
+					}
+				}
 			}
 		});
 
@@ -81,26 +121,62 @@ describe("with empty board", () => {
 		});
 
 		test("out of bounds", () => {
+			const expected = [
+				[7, 0],
+				[7, 1],
+				[8, 1],
+				[9, 1]
+			];
+
 			engine.spawn(shapes.j);
 			engine.doSequence("dddddddd".split(""));
 
-			expect(engine.board[7][0].getColorIndex()).toBe(shapes.j.color);
+			for (let x = 0; x < 10; x++) {
+				for (let y = 0; y < 20; y++) {
+					let colored = false;
 
-			for (let i = 7; i < 10; i++) {
-				expect(engine.board[i][1].getColorIndex()).toBe(shapes.j.color);
+					for (let i = 0; i < expected.length; i++) {
+						if (expected[i][0] === x && expected[i][1] === y) {
+							colored = true;
+							expect(engine.board[x][y].getColorIndex()).toBe(shapes.j.color);
+						}
+					}
+
+					if (!colored) {
+						expect(engine.board[x][y].getColorIndex()).toBe(0);
+					}
+				}
 			}
 		});
 	});
 
 	describe("move L down", () => {
 		test("standard", () => {
+			const expected = [
+				[5, 1],
+				[3, 2],
+				[4, 2],
+				[5, 2]
+			];
+
 			engine.spawn(shapes.l);
 			engine.moveUpDown(engine, 1);
 
-			expect(engine.board[5][1].getColorIndex()).toBe(shapes.l.color);
+			for (let x = 0; x < 10; x++) {
+				for (let y = 0; y < 20; y++) {
+					let colored = false;
 
-			for (let i = 3; i < 6; i++) {
-				expect(engine.board[i][2].getColorIndex()).toBe(shapes.l.color);
+					for (let i = 0; i < expected.length; i++) {
+						if (expected[i][0] === x && expected[i][1] === y) {
+							colored = true;
+							expect(engine.board[x][y].getColorIndex()).toBe(shapes.l.color);
+						}
+					}
+
+					if (!colored) {
+						expect(engine.board[x][y].getColorIndex()).toBe(0);
+					}
+				}
 			}
 		});
 
@@ -112,25 +188,61 @@ describe("with empty board", () => {
 		});
 
 		test("out of bounds", () => {
+			const expected = [
+				[5, 18],
+				[3, 19],
+				[4, 19],
+				[5, 19]
+			];
+
 			engine.spawn(shapes.l);
 			engine.doSequence("ws".split(""));
 
-			expect(engine.board[5][18].getColorIndex()).toBe(shapes.l.color);
+			for (let x = 0; x < 10; x++) {
+				for (let y = 0; y < 20; y++) {
+					let colored = false;
 
-			for (let i = 3; i < 6; i++) {
-				expect(engine.board[i][19].getColorIndex()).toBe(shapes.l.color);
+					for (let i = 0; i < expected.length; i++) {
+						if (expected[i][0] === x && expected[i][1] === y) {
+							colored = true;
+							expect(engine.board[x][y].getColorIndex()).toBe(shapes.l.color);
+						}
+					}
+
+					if (!colored) {
+						expect(engine.board[x][y].getColorIndex()).toBe(0);
+					}
+				}
 			}
 		});
 	});
 
 	describe("hard drop O", () => {
 		test("standard", () => {
+			const expected = [
+				[4, 18],
+				[5, 18],
+				[4, 19],
+				[5, 19]
+			];
+
 			engine.spawn(shapes.o);
 			engine.hardDrop(engine);
+			
+			for (let x = 0; x < 10; x++) {
+				for (let y = 0; y < 20; y++) {
+					let colored = false;
 
-			for (let x = 4; x < 6; x++) {
-				for (let y = 18; y < 20; y++) {
-					expect(engine.board[x][y].getColorIndex()).toBe(shapes.o.color);
+					for (let i = 0; i < expected.length; i++) {
+						if (expected[i][0] === x && expected[i][1] === y) {
+							colored = true;
+							expect(engine.board[x][y].getColorIndex()).toBe(shapes.o.color);
+						}
+					}
+
+					if (!colored) {
+						expect(engine.board[x][y].getColorIndex()).toBe(0);
+					}
 				}
 			}
 		});
