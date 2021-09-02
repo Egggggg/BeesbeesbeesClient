@@ -17,23 +17,40 @@ describe("with empty board", () => {
 	});
 
 	describe("move I left", () => {
-		test("check move I left", () => {
+		test("standard", () => {
+			const expected = [
+				[2, 1],
+				[3, 1],
+				[4, 1],
+				[5, 1]
+			];
+
 			engine.spawn(shapes.i);
 			engine.moveLeftRight(engine, -1);
 
-			for (let i = 2; i < 6; i++) {
-				expect(engine.board[i][1].getColorIndex()).toBe(shapes.i.color);
+			for (let x = 0; x < 10; x++) {
+				for (let y = 0; y < 20; y++) {
+					if (expected.includes([x, y])) {
+						expect(engine.board[x][y].getColorIndex()).toBe(shapes.i.color);
+					} else {
+						if (engine.board[x][y].getColorIndex() !== 0) {
+							console.log(x, y);
+						}
+
+						expect(engine.board[x][y].getColorIndex()).toBe(0);
+					}
+				}
 			}
 		});
 
-		test("check test move I left", () => {
+		test("test pos", () => {
 			engine.spawn(shapes.i);
 			engine.testMoveLeftRight(engine, -1);
 
 			expect(engine.active.shape.test).toStrictEqual([2, 0]);
 		});
 
-		test("check move I left out of bounds", () => {
+		test("out of bounds", () => {
 			engine.spawn(shapes.i);
 			
 			engine.doSequence("aaaaa".split(""));
@@ -45,7 +62,7 @@ describe("with empty board", () => {
 	});
 
 	describe("move J right", () => {
-		test("check move J right", () => {
+		test("standard", () => {
 			engine.spawn(shapes.j);
 			engine.moveLeftRight(engine, 1);
 
@@ -56,14 +73,14 @@ describe("with empty board", () => {
 			}
 		});
 
-		test("check test move J right", () => {
+		test("test pos", () => {
 			engine.spawn(shapes.j);
 			engine.testMoveLeftRight(engine, 1);
 
 			expect(engine.active.shape.test).toStrictEqual([4, 0])
 		});
 
-		test("check move J right out of bounds", () => {
+		test("out of bounds", () => {
 			engine.spawn(shapes.j);
 			engine.doSequence("dddddddd".split(""));
 
@@ -76,7 +93,7 @@ describe("with empty board", () => {
 	});
 
 	describe("move L down", () => {
-		test("check move L down", () => {
+		test("standard", () => {
 			engine.spawn(shapes.l);
 			engine.moveUpDown(engine, 1);
 
@@ -87,14 +104,14 @@ describe("with empty board", () => {
 			}
 		});
 
-		test("check test move L down", () => {
+		test("test pos", () => {
 			engine.spawn(shapes.l);
 			engine.testMoveUpDown(engine, 1);
 
 			expect(engine.active.shape.test).toStrictEqual([3, 1]);
 		});
 
-		test("check move L down out of bounds", () => {
+		test("out of bounds", () => {
 			engine.spawn(shapes.l);
 			engine.doSequence("ws".split(""));
 
@@ -107,7 +124,7 @@ describe("with empty board", () => {
 	});
 
 	describe("hard drop O", () => {
-		test("check hard drop O", () => {
+		test("standard", () => {
 			engine.spawn(shapes.o);
 			engine.hardDrop(engine);
 
@@ -118,7 +135,7 @@ describe("with empty board", () => {
 			}
 		});
 
-		test("check test hard drop O", () => {
+		test("test pos", () => {
 			engine.spawn(shapes.o);
 			engine.testHardDrop(engine);
 
