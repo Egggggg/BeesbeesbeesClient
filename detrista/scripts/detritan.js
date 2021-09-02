@@ -45,7 +45,7 @@ class Detritan {
 
 		for (let i = 0; i < times; i++) {
 			data.forEach((square) => {
-				const coords = [testPos[0] + square[0], testPos[1] + square[1] + dir];
+				const coords = [testPos[0] + square[0] + dir, testPos[1] + square[1]];
 
 				if (coords[0] <= -1 || coords[0] >= 10) {
 					valid = false;
@@ -107,7 +107,7 @@ class Detritan {
 
 		for (let i = 0; i < times; i++) {
 			data.forEach((square) => {
-				const coords = [testPos[0] + square[0] + dir, testPos[1] + square[1]];
+				const coords = [testPos[0] + square[0], testPos[1] + square[1] + dir];
 
 				if (coords[1] <= -1 || coords[1] >= 20) {
 					valid = false;
