@@ -126,7 +126,9 @@ class Engine {
 
 	spawn(shape) {
 		this.active = new Detritan(shape, this.board);
+		this.active.erase();
 		this.active.shape.global = [...this.active.shape.start];
+		this.active.draw();
 		this.active.shape.test = [...this.active.shape.start];
 		this.active.shape.testOrientation = this.active.shape.orientation;
 	}
