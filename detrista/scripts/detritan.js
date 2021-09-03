@@ -8,6 +8,7 @@ class Detritan {
 
 	/**
 	 * Moves the Detritan left (dir=-1) or right (dir=1)
+	 * Returns true if it moved
 	 * @function moveLeftRight
 	 * @param {(-1 | 1)} dir          Direction to move
 	 * @param {number}   times=1      Times to move in direction
@@ -70,6 +71,7 @@ class Detritan {
 
 	/**
 	 * Moves the Detritan up (dir=-1) or down (dir=1)
+	 * Returns true if it moved
 	 * @function moveUpDown
 	 * @param {(-1 | 1)} dir          Direction to move (up: -1, down: 1)
 	 * @param {number}   times=1      Times to move
@@ -132,6 +134,7 @@ class Detritan {
 
 	/**
 	 * Rotates the Detritan by <by> orientations (multiples of 90 degrees clockwise)
+	 * Returns true if it rotated
 	 * @function rotate
 	 * @param {number} by Number of orientations to rotate by
 	 * @returns {boolean}
@@ -147,15 +150,9 @@ class Detritan {
 			this.draw();
 
 			return true;
-		} else if (this.checkKick(by, "global")) {
-			this.erase();
-			this.kick(by, "global");
-			this.draw();
-
-			return true;
 		}
 
-		return false;
+		return kick(by, "global");
 	}
 
 	/**
@@ -189,13 +186,16 @@ class Detritan {
 	}
 
 	/**
-	 * Checks if a Detritan can kick when it rotates by <by> orientations
-	 * @function checkKick
+	 * Kicks a Detritan by rotating it <by> orientations if possible
+	 * Returns true if it kicked
+	 * @function kick
 	 * @param {number}              by   Number of orientations to rotate by 
 	 * @param {("global" | "test")} from Property to check
 	 * @returns {boolean}
 	 */
-	checkKick(by, from) {
+	kick(by, from) {
+		const invalid = [];
+		const newOrient = (this.shape.orientation + by) % 4;
 		
 	}
 
