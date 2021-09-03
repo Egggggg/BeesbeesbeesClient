@@ -315,7 +315,7 @@ describe("with empty board", () => {
 			}
 		});
 
-		test("clockwise kick", () => {
+		test("counterclockwise kick", () => {
 			const expected = [
 				[1, 0],
 				[2, 0],
