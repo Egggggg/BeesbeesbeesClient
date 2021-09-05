@@ -7,7 +7,7 @@ class Detritan {
 	}
 
 	/**
-	 * Moves the Detritan left (dir=-1) or right (dir=1)
+	 * Moves the Detritan left or right
 	 * Returns true if it moved
 	 * @function moveLeftRight
 	 * @param {(-1 | 1)} dir          Direction to move
@@ -29,7 +29,7 @@ class Detritan {
 	}
 
 	/**
-	 * Checks if the Detritan can move left (dir=-1) or right (dir=1)
+	 * Checks if the Detritan can move left or right
 	 * @function checkMoveLeftRight
 	 * @param {(-1 | 1)}            dir       Direction to move (left: -1, right: 1) 
 	 * @param {("global" | "test")} from      Property to check
@@ -70,7 +70,7 @@ class Detritan {
 	}
 
 	/**
-	 * Moves the Detritan up (dir=-1) or down (dir=1)
+	 * Moves the Detritan up or down
 	 * Returns true if it moved
 	 * @function moveUpDown
 	 * @param {(-1 | 1)} dir          Direction to move (up: -1, down: 1)
@@ -92,7 +92,7 @@ class Detritan {
 	}
 
 	/**
-	 * Checks if the Detritan can move up (dir=-1) or down(dir=1)
+	 * Checks if the Detritan can move up or down
 	 * @function checkMoveUpDown
 	 * @param {(-1 | 1)}            dir          Direction to move (up: -1, down: 1)
 	 * @param {("global" | "test")} from         Property to check
@@ -194,7 +194,6 @@ class Detritan {
 	 * @returns {boolean}
 	 */
 	kick(by, from) {
-		const invalid = [];
 		const newOrient = (this.shape.orientation + by) % 4;
 		
 	}
