@@ -1,5 +1,5 @@
 const colors = [
-	"rgba(0, 0, 0, 0)",
+	"rgba(0, 0, 0, 0)", // transparent, none, 0
 	"#8ecdc7", // light blue, I, 1
 	"#6161e5", // blue, J, 2
 	"#e3a34f", // orange, L, 3
