@@ -9,6 +9,17 @@ const colors = [
 	"#d85a5a" // red, Z, 7
 ];
 
+const topColors = [
+	"rgba(0, 0, 0, 0)", // transparent, none, 0
+	"#4daaf0", // light blue, I, 1
+	"#3958a6", // blue, J, 2
+	"#fad281", // orange, L, 3
+	"#f3ea81", // yellow, O, 4
+	"#2d9da1", // green, S, 5
+	"#865be9", // purple, T, 6
+	"#fe8c80" // red, Z, 7
+];
+
 class Square {
 	constructor(x, y, container=null) {
 		this.x = x;
