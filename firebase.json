@@ -7,10 +7,6 @@
       "**/node_modules/**"
     ]
   },
-  "functions": {
-    "predeploy": [],
-    "source": "functions"
-  },
   "database": {
     "rules": "database.rules.json"
   },
@@ -21,9 +17,6 @@
   "emulators": {
     "auth": {
       "port": 9099
-    },
-    "functions": {
-      "port": 5001
     },
     "firestore": {
       "port": 8080

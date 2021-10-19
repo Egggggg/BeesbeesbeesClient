@@ -16,15 +16,6 @@ h3 {
 	display: block;
 }
 
-#board {
-	display: grid;
-	grid-template-columns: 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em;
-	grid-template-rows: 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em;
-	-ms-grid-columns: 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em;
-	-ms-grid-rows: 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em 1.5em;
-	float: none;
-}
-
 #colorbuttons {
 	width: 15em;
 	text-align: center;
@@ -111,11 +102,6 @@ h3 {
 
 .editorchoice > label {
 	font-size: .75em;
-}
-
-.block {
-	background-color: white;
-	border: 1px solid #646f91;
 }
 
 #color0 {
