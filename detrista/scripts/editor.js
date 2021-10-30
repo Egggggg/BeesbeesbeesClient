@@ -1,12 +1,10 @@
 let currentOrientation = 0;
 
-document.addEventListener("DOMContentLoaded", function() {
-	const board = [];	
+document.addEventListener("DOMContentLoaded", function() {	
 	const boardRows = new Array(20).fill(0);
 	const colorButtons = document.querySelectorAll(".colorbutton");
 	const colorPreview = document.querySelector("#colorpreview");
 	const editorRows = new Array(5).fill(0);
-	const editors = [[], [], [], [], []];
 	const orientations = [
 		{
 			coords: [],
@@ -42,71 +40,21 @@ document.addEventListener("DOMContentLoaded", function() {
 	const squareSize = 24;
 
 	let autorotate = true;
+	let board;
 	let boardStart = [0, 0];
 	let color = 1;
+	const editors;
 	let mouseDown = -1;
 
-	const stages = [];
+	board = drawBoard("board", (squareSize * 10) + (padding * 2), (squareSize * 20) + (padding * 2), padding, squareSize);
 
-	stages.push(new Konva.Stage({
-		container: "board",
-		width: (squareSize * 10) + (padding * 2),
-		height: (squareSize * 20) + (padding * 2)
-	}));
-
-	for (let i = 0; i < 5; i++) {
-		stages.push(new Konva.Stage({
-			container: `editor${i}`,
-			width: (squareSize * 5) + (padding * 2),
-			height: (squareSize * 5) + (padding * 2)
-		}));
-	}
-
-	const boardDotLayer = new Konva.Layer();
-	const boardBorderLayer = new Konva.Layer();
-	const editorDotLayer = new Konva.Layer();
-	const editorBorderLayer = new Konva.Layer();
-
-	const boardBorder = new Konva.Rect({
-		x: 0,
-		y: 0,
-		width: stages[0].width(),
-		height: stages[0].height(),
-		stroke: "#310865",
-		strokeWidth: 20,
-		cornerRadius: 20
-	});
-	const editorBorder = new Konva.Rect({
-		x: 0,
-		y: 0,
-		width: stages[1].width(),
-		height: stages[1].height(),
-		stroke: "#310865",
-		strokeWidth: 20,
-		cornerRadius: 20
-	});
-
-	boardBorderLayer.add(boardBorder);
-	editorBorderLayer.add(editorBorder.clone());
-
-	for (let x = 0; x < 9; x++) {
-		for (let y = 0; y < 19; y++) {
-			const dot = new Konva.Circle({
-				x: (x * squareSize) + squareSize + padding,
-				y: (y * squareSize) + squareSize + padding,
-				radius: 2,
-				fill: "#752f73"
-			});
-
-			boardDotLayer.add(dot);
-
-			if (x < 5 && y < 5) {
-				editorDotLayer.add(dot.clone());
-			}
-		}
-	}
-
-	
+	editors = batchDrawBoards(
+		["editor0", "editor1", "editor2", "editor3"],
+		(squareSize * 5) + (padding * 2),
+		(squareSize * 5) + (padding * 2),
+		padding,
+		squareSize
+	)
 
 	for (let x = 0; x < 10; x++) {
 		board[x] = boardRows.map((e, y) => new Square(x, y, "#board"));
