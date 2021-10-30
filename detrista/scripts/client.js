@@ -10,11 +10,10 @@ class Client {
     }
 
     start() {
-		initBoard("p1board", this.width, this.height, this.padding, this.squareSize);
-		initBoard("p2board", this.width, this.height, this.padding, this.squareSize);
+		let p1Board;
+		let p2Board;
 
-        let p1Board = [];
-        let p2Board = [];
+		[p1Board, p2Board] = batchDrawBoards(["p1board", "p2board"], this.width, this.height, this.padding, this.squareSize);
 
 		let columns = new Array(20).fill(0);
 
