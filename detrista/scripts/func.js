@@ -54,7 +54,7 @@ function drawBoard(container, width, height, padding, squareSize) {
  * @param {number} padding 
  * @param {number} squareSize 
  */
-function batchInitBoard(containers, width, height, padding, squareSize) {
+function batchDrawBoards(containers, width, height, padding, squareSize) {
 	const stages = [];
 
 	for (let i = 0; i < containers.length; i++) {
